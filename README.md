@@ -1,26 +1,29 @@
 # WiLI
-
-## WiLIについて
-なくしもの捜索用ROS2パッケージ群です。<br>
-名前はWhere is a Lost Itemの頭文字から取りました。
+書きかけです。
 
 ## 概要
-本リポジトリはWiLIについての資料です。<br>
-まだメモ書きレベルです。
+WiLIはなくしもの位置推定用のプログラム群です。
+名前はWhere is a Lost Itemの頭文字から取りました。<br>
+本リポジトリはWiLIについての資料です。
 
-## 構成ROSパッケージ
-作成中
-* [wili_io](https://github.com/MaruKazeMaru/wili_io)&emsp;HTTPサーバ機能&amp;データベースの読み書き
-* [wili_suggester](https://github.com/MaruKazeMaru/wili_suggester)&emsp;HMMパラメータ+遷移失敗確率からなくしもの位置を推定&amp;実際のなくしもの位置から遷移失敗確率を学習
+## なくしもの位置の推定方法
 
-今後作成
-* wili_hmm&emsp;利用者の位置推移からHMMパラメータを学習
-* wili_kalman&emsp;カメラ画像内の二次元コード位置+9軸センサのセンサ値から利用者の位置を推定、実験用
+## 各種パラメータの学習方法
 
-作成中断
-* [wili_bridge](https://github.com/MaruKazeMaru/wili_bridge)&emsp;ソケット通信サーバ、やりたかったことはwili_ioへ引き継ぎ
-* [wili_db](https://github.com/MaruKazeMaru/wili_db)&emsp;データベースの読み書き、wili_ioの派生(フォーク?)元
+## プログラム群
+### 作成中
+* wilitools
+  * https://github.com/MaruKazeMaru/wilitools
+  * Pythonパッケージ
+  * なくしもの位置推定
+  * 遷移失敗確率の学習
+  * 各種パラメータのDBへの保存
+* wili_web
+  * https://github.com/MaruKazeMaru/wili_web
+  * Flaskを用いたwebアプリケーション
+  * なくしもの位置推定
+  * 各種パラメータの確認
 
-## WiLIを利用したサジェストアプリ
-webブラウザからなくしもの位置の推定結果などを確認するアプリを作成中です。<br>
-詳細は[web/web.md](./web/web.md)にあります。
+### 今後作成
+* 利用者の位置推移から遷移確率&利用者位置分布を学習するプログラム
+* 利用者の位置推移を監視するシステム
