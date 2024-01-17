@@ -22,25 +22,25 @@ WiLIはなくしもの位置推定用のプログラム群です。
 
 この仮定のもとでは、遷移を繰り返すことでいつかはなくしものが発生します。加えてなくしものが発生した際の遷移先を次の式で確率的に求めることができます。
 
-$
-\bm{p} = \bm{L} (\bm{I} - \bm{K})^{-1} \bm{\pi}
-$
+$`
+\mathbf{p} = \mathbf{L} (\mathbf{I} - \mathbf{K})^{-1} \mathbf{\pi}
+`$
 
 |記号|概要|
 |:-:|:-|
-|$n$|動作の数|
-|$p_i$|$i$番目の動作へ遷移する際になくしものが発生する確率|
-|$\bm{p}$|$(p_1\ p_2\ \cdots\ p_n)^\mathrm{T}$|
-|$\theta_i$|$i$番目の動作へ遷移する際の遷移失敗確率|
-|$a_{i j}$|$i$番目の動作から$j$番目の動作への遷移確率|
-|$\bm{L}$|$\begin{pmatrix} 0 & \theta_1 a_{12} & \cdots & \theta_1 a_{1n} \\ \theta_2 a_{2 1} & 0 & & \theta_2 a_{2n} \\ \vdots & & \ddots & \vdots \\ \theta_n a_{n1} & \theta_n a_{n2} & \cdots & 0 \end{pmatrix}$|
-|$\bm{I}$|$n$行$n$列の単位行列|
-|$\bm{A}$|遷移確率行列|
-|$\bm{K}$|$\bm{A} - \bm{L}$|
-|$\pi_i$|最初の動作が$i$番目の動作である確率|
-|$\bm{\pi}$|$(\pi_1\ \pi_2\ \cdots\ \pi_n)^\mathrm{T}$<br>注意：円周率ではありません|
+|$`n`$|動作の数|
+|$`p_i`$|$`i`$番目の動作へ遷移する際になくしものが発生する確率|
+|$`\mathbf{p}`$|$`(p_1\ p_2\ \cdots\ p_n)^\mathrm{T}`$|
+|$`\theta_i`$|$`i`$番目の動作へ遷移する際の遷移失敗確率|
+|$`a_{i j}`$|$`i`$番目の動作から$`j`$番目の動作への遷移確率|
+|$`\mathbf{L}`$|$`\begin{pmatrix} 0 & \theta_1 a_{12} & \cdots & \theta_1 a_{1n} \\ \theta_2 a_{2 1} & 0 & & \theta_2 a_{2n} \\ \vdots & & \ddots & \vdots \\ \theta_n a_{n1} & \theta_n a_{n2} & \cdots & 0 \end{pmatrix}`$|
+|$`\mathbf{I}`$|$`n`$行$`n`$列の単位行列|
+|$`\mathbf{A}`$|遷移確率行列|
+|$`\mathbf{K}`$|$`\mathbf{A} - \mathbf{L}`$|
+|$`\pi_i`$|最初の動作が$`i`$番目の動作である確率|
+|$`\mathbf{\pi}`$|$`(\pi_1\ \pi_2\ \cdots\ \pi_n)^\mathrm{T}`$<br>注意：円周率ではありません|
 
-$p_i$を$i$番目の動作の<b>なくしもの発生確率</b>と呼ぶことにします。
+$`p_i`$を$`i`$番目の動作の<b>なくしもの発生確率</b>と呼ぶことにします。
 
 ここで各動作ごとに利用者がいる位置の傾向を表す分布を用意します。
 これらの位置分布のなくしもの発生確率を重みとした加重和をなくしもの位置の確率分布とみなします。
@@ -56,16 +56,18 @@ $p_i$を$i$番目の動作の<b>なくしもの発生確率</b>と呼ぶこと�
 
 また遷移失敗確率はベイズ推定により学習します。真のなくしもの位置に対し次の式で遷移失敗確率の分布を更新します。
 
-$f(\bm{\theta} | \bm{x}_\mathrm{true}) \propto h(\bm{x}_\mathrm{true}|\bm{\theta}) f(\bm{\theta}) $
+$`
+f(\mathbf{\theta} | \mathbf{x}_\mathrm{true}) \propto h(\mathbf{x}_\mathrm{true}|\mathbf{\theta}) f(\mathbf{\theta})
+`$
 
 |記号|概要|
 |:-:|:-|
-|$\bm{\theta}$|$(\theta_1\ \theta_2\ \cdots\ \theta_n)^\mathrm{T}$|
-|$f(\bm{\theta})$|遷移失敗確率の確率分布の密度関数|
-|$\bm{x}_\mathrm{true}$|真のなくしもの位置|
-|$h(\bm{x})$|なくしもの位置の確率分布の密度関数|
+|$`\mathbf{\theta}`$|$`(\theta_1\ \theta_2\ \cdots\ \theta_n)^\mathrm{T}`$|
+|$`f(\mathbf{\theta})`$|遷移失敗確率の確率分布の密度関数|
+|$`\mathbf{x}_\mathrm{true}`$|真のなくしもの位置|
+|$`h(\mathbf{x})`$|なくしもの位置の確率分布の密度関数|
 
-備考：大雑把に言うと$h(\bm{x} | \bm{\theta})$は遷移失敗確率が$\bm{\theta}$のときの推定結果のことであり、遷移失敗確率の更新には尤度として「推定結果が真のなくしもの位置をどれだけ正確に予測できたか」を用いるということです。
+備考：大雑把に言うと$`h(\mathbf{x} | \mathbf{\theta})`$は遷移失敗確率が$`\mathbf{\theta}`$のときの推定結果のことであり、遷移失敗確率の更新には尤度として「推定結果が真のなくしもの位置をどれだけ正確に予測できたか」を用いるということです。
 
 
 ## プログラム群
