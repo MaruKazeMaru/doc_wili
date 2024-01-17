@@ -1,17 +1,17 @@
 # WiLI
-書きかけです。
 
 ## 概要
 WiLIはなくしもの位置推定用のプログラム群です。
 名前はWhere is a Lost Itemの頭文字から取りました。<br>
 本リポジトリはWiLIについての資料です。
 
+
 ## 理論
 経験則をもとに利用者の行動を確率論的にモデル化することでなくしもの位置の確率分布を計算します。
 
 ### なくしもの位置の推定方法
-経験則として、なくしものはある動作から別の動作に遷移する際に手に持っていたものを置くことで発生します。
-例えば新聞紙を郵便受けから取ろうとスマホを床に置きそのまま忘れる等です。（筆者の実体験）
+経験則として、なくしものはある動作から別の動作に遷移する際に手に持っていたものを置くという場合に発生しやすいです。
+例えば郵便受けから新聞紙を取ろうとスマホを床に置きそのまま忘れる等です。（筆者の実体験）
 
 <img width="150" src="./images/forget_phone.png" alt="スマホを忘れるイメージ">
 
@@ -93,6 +93,7 @@ f(\mathbf{\theta} | \mathbf{x}_\mathrm{true}) \propto h(\mathbf{x}_\mathrm{true}
 ### 今後作成
 * 利用者の位置推移から遷移確率&利用者位置分布を学習するプログラム
 * 利用者の位置推移を監視するシステム
+
 
 ## 著作権について
 <p xmlns:cc="http://creativecommons.org/ns#" xmlns:dct="http://purl.org/dc/terms/"><span property="dct:title">wili_documents</span> by <span property="cc:attributionName">Shinagawa Kazemaru</span> is licensed under <a href="http://creativecommons.org/licenses/by/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1"></a></p>
