@@ -1,0 +1,154 @@
+\documentclass{jarticle}
+
+\title{理論}
+\author{品川風丸}
+
+\usepackage{amsmath,amssymb}
+\usepackage{amsthm}
+\usepackage{mathrsfs}
+\usepackage{url}
+\usepackage{here}
+\usepackage{comment}
+\usepackage{bm}
+\usepackage[dvipdfmx]{graphicx}
+
+\begin{document}
+
+\maketitle
+
+\section{はじめに}
+本ファイルではWiLIに用いるなくしもの位置推定の理論について述べる。
+またREADME.mdはですます調で書かれているが、本ファイルは数学に関する内容が主であることを踏まえだである調で書く。
+
+なくしものの位置を推定するにあたり、まずなくしものの発生の原理について考える。
+経験則としてなくしものはある動作から別の動作へ移る際に手に持っているものを置く場合に発生しやすい。
+例えば筆者の実体験として、郵便受けから新聞紙を取ろうと手に持っていたスマホを床に置いてそのまま忘れる等がある。
+WiLIではこの経験則をもとに利用者の行動を確率論を用いてモデル化し、その下でなくしものの位置の確率分布を計算する。
+
+
+\section{理論}
+
+\subsection{概要}
+利用者の行動について以下の2つの仮定を敷く。
+\begin{itemize}
+    \item 仮定1：利用者は動作をノードとするマルコフ連鎖に従う。
+    \item 仮定2：ある動作から別の動作へ遷移する際に確率的になくしものが発生する。またこの際の確率は遷移先の動作にのみ依存するとし、その確率を遷移失敗確率と呼ぶ。
+\end{itemize}
+この仮定の下では遷移を繰り返すといつかはなくしものが発生する。
+さらに各動作ごとになくしものが発生した際に遷移先がその動作であった確率を計算できる。この確率をなくしもの発生確率と呼ぶ。
+
+ここで各動作ごとに利用者がその動作下でどこにいるかの傾向を表す位置分布を用意し、
+全動作に渡り利用者の位置分布をなくしもの発生確率を重みとして足し合わせる。
+こうして得られた分布はなくしものが発生した際に利用者がいた位置の確率分布を表していると考えられる。
+そこでこの分布をなくしものの位置の確率分布とみなす。
+
+
+\subsection{定式化}
+表\ref{tbl:f_symbol}のように記号を置く。
+
+\begin{center}
+    \begin{table}[h]
+        \caption{記号}
+        \label{tbl:f_symbol}
+
+        \begin{tabular}{c|l}
+            記号 & 概要 \\
+            \hline
+
+            % 基本的な記号
+            $X$ & 捜索範囲 \\
+            $n$ & 動作の数（利用者が従うマルコフ連鎖のノードの数）\\
+            $M_i(i=1,2,\cdots,n)$ & $i$番目の動作 \\
+            $m_t(t=0,1,2,\cdots)$ & \begin{tabular}{c}
+                $t$回目の遷移を終えた直後の動作 \\
+                ただし$m_0$は初期動作とする
+            \end{tabular} \\
+            $\mathrm{LI}$ & なくしものが発生したことを表す \\
+            $\mathrm{NLI}$ & なくしものが発生しなかったことを表す \\
+            $r_t(t=1,2,\cdots)$ & \begin{tabular}{c}
+                $t$回目の遷移でなくしものが発生した場合は$\mathrm{LI}$を、
+                発生しなかった場合は$\mathrm{NLI}$を返す変数
+            \end{tabular} \\
+            $\tau$ & \begin{tabular}{l}
+                次を満たす数 \\
+                任意の$t < \tau$に対し$r_t=\mathrm{NLI}$かつ$r_{\tau}=\mathrm{LI}$ \\
+                （$\tau$回目までの遷移ではなくしものが発生せず、$\tau$回目の遷移で発生する）
+            \end{tabular} \\
+
+            % パラメータ
+            $a_{ij}$ & \begin{tabular}{l}
+                $M_i$から$M_j$への遷移確率 \\
+                $\mathrm{P}(m_t=M_i , m_{t+1}=M_j)$
+            \end{tabular} \\
+            $s_i$ & \begin{tabular}{l}
+                初期動作が$M_i$である確率 \\
+                $\mathrm{P}(m_0=M_i)$
+            \end{tabular} \\
+            $\theta_i$ & \begin{tabular}{l}
+                $M_i$へ遷移する際の遷移失敗確率 \\
+                $\mathrm{P}(r_t=\mathrm{LI})$
+            \end{tabular} \\
+            $b_i$ & $M_i$における利用者の位置分布
+        \end{tabular}
+    \end{table}
+\end{center}
+
+これらの記号の下、$M_i$でのなくしもの発生確率$p_i$を式\ref{eq:p_def}で定義する。
+\begin{equation}
+    \label{eq:p_def}
+    p_i =\mathrm{P}(\tau < \infty , m_{\tau} = M_i)
+\end{equation}
+
+$p_i$は$a_{i j}$、$s_i$、$\theta_i$を用いれば式\ref{eq:p}のように表せる。
+導出は補足として\ref{sec:calc_p}章に書く。
+\begin{equation}
+    \label{eq:p}
+    \bm{p} =\bm{L}(\bm{I} - \bm{K})\bm{s}
+\end{equation}
+\begin{center}
+    ただし
+\end{center}
+\begin{align*}
+    \bm{p} &= (p_1\ p_2\ \cdots\ p_n)^\mathrm{T} \\
+    \bm{L} &= \begin{pmatrix}
+        0                & \theta_1 a_{1 2} & \cdots & \theta_1 a_{1 n} \\
+        \theta_2 a_{2 1} & 0                &        & \theta_2 a_{2 n} \\
+        \vdots           &                  & \ddots & \vdots           \\
+        \theta_n a_{n 1} & \theta_n a_{n 2} & \cdots & 0
+    \end{pmatrix} \\
+    \bm{I} & \quad \ \text{$n$行$n$列の単位行列} \\
+    \bm{K} &= \begin{pmatrix}
+                       a_{1 1} & (1 - \theta_1) a_{1 2} & \cdots & (1 - \theta_1) a_{1 n} \\
+        (1 - \theta_2) a_{2 1} &                a_{2 2} &        & (1 - \theta_2) a_{2 n} \\
+        \vdots                 &                        & \ddots & \vdots                 \\
+        (1 - \theta_n) a_{n 1} & (1 - \theta_n) a_{n 2} & \cdots &                a_{n n}
+    \end{pmatrix} \\
+    \bm{s} &= (s_1\ s_2\ \cdots\ s_n)^\mathrm{T} \\
+\end{align*}
+
+備考として$\bm{L}$と$\bm{K}$は$a_{i j}$に対し式\ref{eq:L+K=A}を満たす。
+\begin{equation}
+    \label{eq:L+K=A}
+    \bm{L} + \bm{K} = \begin{pmatrix}
+        a_{1 1} & a_{1 2} & \cdots & a_{1 n} \\
+        a_{2 1} & a_{2 2} &        & a_{2 n} \\
+        \vdots  &         & \ddots & \vdots  \\
+        a_{n 1} & a_{n 2} & \cdots & a_{n n}
+    \end{pmatrix}
+\end{equation}
+
+$p_i$と$b_i$を用いればなくしもの位置の確率分布の密度関数$h:X \rightarrow \mathbb{R}$は式\ref{eq:h}で求まる。
+\begin{equation}
+    \label{eq:h}
+    h = \sum_{i}{p_i}b_i
+\end{equation}
+
+
+
+
+
+\section{補足：なくしもの発生確率}
+\label{sec:calc_p}
+
+
+\end{document}
