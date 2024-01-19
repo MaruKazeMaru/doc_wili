@@ -71,7 +71,7 @@ WiLIではこの経験則をもとに利用者の行動を確率論を用いて�
             \end{tabular} \\
             $\tau$ & \begin{tabular}{l}
                 次を満たす数 \\
-                任意の$t < \tau$に対し$r_t=\mathrm{NLI}$かつ$r_{\tau}=\mathrm{LI}$ \\
+                任意の$t < \tau$に対し$r_t=\mathrm{NLI}$かつ$r_\tau=\mathrm{LI}$ \\
                 （$\tau$回目までの遷移ではなくしものが発生せず、$\tau$回目の遷移で発生する）
             \end{tabular} \\
 
@@ -88,18 +88,18 @@ WiLIではこの経験則をもとに利用者の行動を確率論を用いて�
                 $M_i$へ遷移する際の遷移失敗確率 \\
                 $\mathrm{P}(r_t=\mathrm{LI})$
             \end{tabular} \\
-            $b_i$ & $M_i$における利用者の位置分布
+            $b_i$ & $M_i$における利用者の位置分布の密度関数
         \end{tabular}
     \end{table}
 \end{center}
 
-これらの記号の下、$M_i$でのなくしもの発生確率$p_i$を式\ref{eq:p_def}で定義する。
+これらの記号の下、$M_i$でのなくしもの発生確率$p_i(i=1,2,\cdots,n)$を式(\ref{eq:p_def})で定める。
 \begin{equation}
     \label{eq:p_def}
-    p_i =\mathrm{P}(\tau < \infty , m_{\tau} = M_i)
+    p_i =\mathrm{P}(\tau < \infty , m_\tau = M_i)
 \end{equation}
 
-$p_i$は$a_{i j}$、$s_i$、$\theta_i$を用いれば式\ref{eq:p}のように表せる。
+$p_i$は$a_{i j}$、$s_i$、$\theta_i$を用いれば式(\ref{eq:p})のように表せる。
 導出は補足として\ref{sec:calc_p}章に書く。
 \begin{equation}
     \label{eq:p}
@@ -126,7 +126,7 @@ $p_i$は$a_{i j}$、$s_i$、$\theta_i$を用いれば式\ref{eq:p}のように�
     \bm{s} &= (s_1\ s_2\ \cdots\ s_n)^\mathrm{T} \\
 \end{align*}
 
-備考として$\bm{L}$と$\bm{K}$は$a_{i j}$に対し式\ref{eq:L+K=A}を満たす。
+備考として$\bm{L}$と$\bm{K}$は$a_{i j}$に対し式(\ref{eq:L+K=A})を満たす。
 \begin{equation}
     \label{eq:L+K=A}
     \bm{L} + \bm{K} = \begin{pmatrix}
@@ -137,14 +137,41 @@ $p_i$は$a_{i j}$、$s_i$、$\theta_i$を用いれば式\ref{eq:p}のように�
     \end{pmatrix}
 \end{equation}
 
-$p_i$と$b_i$を用いればなくしもの位置の確率分布の密度関数$h:X \rightarrow \mathbb{R}$は式\ref{eq:h}で求まる。
+なくしもの位置の確率分布の密度関数$h:X \rightarrow \mathbb{R}$は$p_i$と$b_i$を用いて式(\ref{eq:h})で求まる。
 \begin{equation}
     \label{eq:h}
-    h = \sum_{i}{p_i}b_i
+    h = \sum_{i} {p_i b_i}
 \end{equation}
 
 
+\subsection{パラメータ学習方法}
+必要なパラメータは遷移確率$a_{i j}$、初期確率$s_i$、遷移失敗確率$\theta_i$、利用者の位置分布$b_i$の4種である。
 
+このうち$a_{i j}$、$s_i$、$b_i$について、これらはマルコフ連鎖の各ノードに確率分布が付随しているという点で隠れマルコフモデル（以下HMM）に類似している。
+そのため利用者の位置分布を正規分布に限定すれば、
+利用者の位置推移からHMMの学習アルゴリズムによりパラメータの学習が可能であると考えられる。
+
+残る$\theta_i$はベイズ推定により学習する。
+$\bm{\theta} = (\theta_1\ \theta_2\ \cdots\ \theta_n)^\mathrm{T}$が従う確率分布の密度関数$f:[0,1]^n \rightarrow \mathbb{R}$を
+真のなくしもの位置$\bm{x}_\mathrm{true} \in X$を用いて式(\ref{eq:update_theta})により更新する。
+\begin{equation}
+    \label{eq:update_theta}
+    f(\bm{\theta} | \bm{x}_\mathrm{true}) \propto h(\bm{x}_\mathrm{true} | \bm{\theta}) f(\bm{\theta})
+\end{equation}
+
+
+\subsection{なくしもの位置の推定方法}
+遷移失敗確率$\theta_i$の学習は点推定ではなく分布を推定している。
+そこでなくしもの位置の推定結果としてなくしもの位置の確率分布の$\bm{\theta}$に関する平均値、
+すなわち式(\ref{eq:Eh})を密度関数としてもつ確率分布を採用する。
+\begin{equation}
+    \label{eq:Eh}
+    \mathrm{E}_\bm{\theta} [h]\ :\ 
+    \begin{aligned}[t]
+        X &\rightarrow \mathbb{R} \\
+        \bm{x} &\mapsto \int {h(\bm{x} | \bm{\theta}) f(\bm{\theta}) \mathrm{d} \bm{\theta}}
+    \end{aligned}
+\end{equation}
 
 
 \section{補足：なくしもの発生確率}
