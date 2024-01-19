@@ -12,6 +12,9 @@
 \usepackage{bm}
 \usepackage[dvipdfmx]{graphicx}
 
+\numberwithin{equation}{section}
+\numberwithin{table}{section}
+
 \begin{document}
 
 \maketitle
@@ -103,7 +106,7 @@ $p_i$は$a_{i j}$、$s_i$、$\theta_i$を用いれば式(\ref{eq:p})のように
 導出は補足として\ref{sec:calc_p}章に書く。
 \begin{equation}
     \label{eq:p}
-    \bm{p} =\bm{L}(\bm{I} - \bm{K})\bm{s}
+    \bm{p} =\bm{L}(\bm{I} - \bm{K})^{-1}\bm{s}
 \end{equation}
 \begin{center}
     ただし
@@ -174,8 +177,9 @@ $\bm{\theta} = (\theta_1\ \theta_2\ \cdots\ \theta_n)^\mathrm{T}$が従う確率
 \end{equation}
 
 
-\section{補足：なくしもの発生確率}
+\section{補足：なくしもの発生確率の導出}
 \label{sec:calc_p}
+式(\ref{eq:})
 
 
 \end{document}
