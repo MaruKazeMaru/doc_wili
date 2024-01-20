@@ -20,8 +20,8 @@ WiLIはなくしもの位置推定用のプログラム群です。
   * 確率は遷移先の動作のみに依存
   * この確率を<b>遷移失敗確率</b>と呼ぶ
 
-<img width="400" src="./images/tr_prob.png" alt="仮定1のイメージ">
-<img width="400" src="./images/miss_prob.png" alt="仮定2のイメージ">
+<img width="400" src="./src/images/tr_prob.png" alt="仮定1のイメージ">
+<img width="400" src="./src/images/miss_prob.png" alt="仮定2のイメージ">
 
 この仮定のもとでは、遷移を繰り返すことでいつかはなくしものが発生します。加えてなくしものが発生した際の遷移先を次の式で確率的に求めることができます。
 
@@ -48,7 +48,7 @@ $`p_i`$を$`i`$番目の動作の<b>なくしもの発生確率</b>と呼ぶこ�
 ここで各動作ごとに利用者がいる位置の傾向を表す分布を用意します。
 これらの位置分布のなくしもの発生確率を重みとした加重和をなくしもの位置の確率分布とみなします。
 
-<img width="500" src="./images/weighted_sum.png" alt="位置分布の加重和">
+<img width="500" src="./src/images/weighted_sum.png" alt="位置分布の加重和">
 
 ### 各種パラメータの学習方法
 推定に用いるパラメータは以下の3種です。
