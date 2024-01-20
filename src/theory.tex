@@ -15,6 +15,9 @@
 \numberwithin{equation}{section}
 \numberwithin{table}{section}
 
+\theoremstyle{plain}
+\newtheorem{joken}{条件}
+
 \begin{document}
 
 \maketitle
@@ -59,18 +62,21 @@ WiLIではこの経験則をもとに利用者の行動を確率論を用いて�
             \hline
 
             % 基本的な記号
-            $X$ & 捜索範囲 \\
+            $X$ & \begin{tabular}{l}
+                捜索範囲 \\
+                $ \mathbb{R}^2 $または$ \mathbb{R}^3 $の部分集合
+            \end{tabular} \\
             $n$ & 動作の数（利用者が従うマルコフ連鎖のノードの数）\\
             $M_i(i=1,2,\cdots,n)$ & $i$番目の動作 \\
-            $m_t(t=0,1,2,\cdots)$ & \begin{tabular}{c}
+            $m_t(t=0,1,2,\cdots)$ & \begin{tabular}{l}
                 $t$回目の遷移を終えた直後の動作 \\
                 ただし$m_0$は初期動作とする
             \end{tabular} \\
             $\mathrm{LI}$ & なくしものが発生したことを表す \\
             $\mathrm{NLI}$ & なくしものが発生しなかったことを表す \\
-            $r_t(t=1,2,\cdots)$ & \begin{tabular}{c}
+            $r_t(t=1,2,\cdots)$ & \begin{tabular}{l}
                 $t$回目の遷移でなくしものが発生した場合は$\mathrm{LI}$を、
-                発生しなかった場合は$\mathrm{NLI}$を返す変数
+                発生しなかった場合は$\mathrm{NLI}$を返す確率変数
             \end{tabular} \\
             $\tau$ & \begin{tabular}{l}
                 次を満たす数 \\
@@ -79,24 +85,33 @@ WiLIではこの経験則をもとに利用者の行動を確率論を用いて�
             \end{tabular} \\
 
             % パラメータ
-            $a_{ij}$ & \begin{tabular}{l}
-                $M_i$から$M_j$への遷移確率 \\
-                $\mathrm{P}(m_t=M_i , m_{t+1}=M_j)$
-            \end{tabular} \\
             $s_i$ & \begin{tabular}{l}
                 初期動作が$M_i$である確率 \\
                 $\mathrm{P}(m_0=M_i)$
             \end{tabular} \\
-            $\theta_i$ & \begin{tabular}{l}
-                $M_i$へ遷移する際の遷移失敗確率 \\
-                $\mathrm{P}(r_t=\mathrm{LI})$
-            \end{tabular} \\
-            $b_i$ & $M_i$における利用者の位置分布の密度関数
         \end{tabular}
     \end{table}
 \end{center}
 
-これらの記号の下、$M_i$でのなくしもの発生確率$p_i(i=1,2,\cdots,n)$を式(\ref{eq:p_def})で定める。
+これらの記号の下、仮定1と仮定2加えて利用者の位置分布を次のように定式化する。
+\begin{joken}[仮定1]
+    $ \mathrm{P}(m_{t+1}=M_j\ |\ m_t=M_i) $は$i$と$j$にのみ依存する。
+    この確率は$M_i$から$M_j$への遷移確率と呼び、$a_{i j}$と書く。
+\end{joken}
+\begin{joken}[仮定2]
+    $t$に依らず次式が成り立つ。
+    \begin{equation}
+        \mathrm{P}(r_{t+1} = \mathrm{LI}\ |\ m_{t+1}=m_t) = 0
+    \end{equation}
+\end{joken}
+\begin{joken}[仮定2]
+    $ \mathrm{P}(r_{t+1} = \mathrm{LI}\ |\ m_{t+1}=M_i , m_{t+1} \ne m_t) $は$i$にのみ依存する。
+    この確率を$M_i$への遷移失敗確率と呼び、$\theta_i$と書く。
+\end{joken}
+\begin{joken}[利用者の位置分布]
+    $M_i$に$X$上の確率分布が付随しているとし、その密度関数を$ b_i:X\rightarrow\mathbb{R} $と書く。
+\end{joken}
+また$M_i$でのなくしもの発生確率$p_i(i=1,2,\cdots,n)$を式(\ref{eq:p_def})で定める。
 \begin{equation}
     \label{eq:p_def}
     p_i =\mathrm{P}(\tau < \infty , m_\tau = M_i)
@@ -129,7 +144,7 @@ $p_i$は$a_{i j}$、$s_i$、$\theta_i$を用いれば式(\ref{eq:p})のように
     \bm{s} &= (s_1\ s_2\ \cdots\ s_n)^\mathrm{T} \\
 \end{align*}
 
-備考として$\bm{L}$と$\bm{K}$は$a_{i j}$に対し式(\ref{eq:L+K=A})を満たす。
+備考として$\bm{L}$と$\bm{K}$は$a_{i j}$に対し次式を満たす。
 \begin{equation}
     \label{eq:L+K=A}
     \bm{L} + \bm{K} = \begin{pmatrix}
@@ -179,7 +194,150 @@ $\bm{\theta} = (\theta_1\ \theta_2\ \cdots\ \theta_n)^\mathrm{T}$が従う確率
 
 \section{補足：なくしもの発生確率の導出}
 \label{sec:calc_p}
-式(\ref{eq:})
+本章では式(\ref{eq:p})の導出をする。
 
+まず$ p_{t\ i} = \mathrm{P}(\tau = t\ , m_\tau = M_i) $とおく。これはなくしもの発生確率$p_i$に対し次式を満たす。
+\begin{equation} \label{eq:pi=sum_pti}
+    p_i = \sum_{t=1}^{\infty}p_{t\ i}
+\end{equation}
+式(\ref{eq:p})を導くために$ p_{t\ i} $の$t$に関する一般項を求める。
 
+$ p_{t\ i} $の一般項を求めるにあたって、まず$ q_{t\ i} = \mathrm{P}(\tau > t\ , m_t=M_i) $の一般項を求める。
+$ q_{t\ i} $は次の漸化式を満たす。
+\begin{align}
+    q_{t+1\ i} & = \! \sum_{k} \mathrm{P}(\tau \! > \! t + 1\ , m_{t+1} \! = \! M_i\ , m_t \! = \! M_k) \nonumber\\
+    & = \! \sum_{k} \mathrm{P}(\tau \! \ne \! t + 1 , m_{t+1} \! = \! M_i , m_t \! = \! M_k | \tau \! > \! t) \mathrm{P}(\tau \! > \! t) \nonumber\\
+    & = \! \sum_{k} \left(
+        \begin{array}{l}
+            \mathrm{P}(\tau \! \ne \! t + 1 | \tau \! > \! t , m_{t+1} \! = \! M_i , m_t \! = \! M_k) \\
+            \times \mathrm{P}(m_{t+1} \! = \! M_i , m_t \! = \! M_k | \tau \! > \! t) \mathrm{P}(\tau \! > \! t)
+        \end{array}
+     \right) \nonumber\\
+    & = \! \sum_{k} \left(
+        \begin{array}{l}
+            \mathrm{P}(\tau \! \ne \! t + 1 | \tau \! > \! t , m_{t+1} \! = \! M_i , m_t \! = \! M_k) \\
+            \times \mathrm{P}(m_{t+1} \! = \! M_i , m_t \! = \! M_k) \mathrm{P}(\tau \! > \! t)
+        \end{array}
+    \right) \nonumber\\
+    & = \! \sum_{k} \left(
+        \begin{array}{l}
+            \mathrm{P}(\tau \! \ne \! t + 1 | \tau \! > \! t , m_{t+1} \! = \! M_i , m_t \! = \! M_k) \\
+            \times \mathrm{P}(m_{t+1} \! = \! M_i | m_t \! = \! M_k) \mathrm{P}(m_t \! = \! M_k) \mathrm{P}(\tau \! > \! t)
+        \end{array}
+    \right) \nonumber\\
+    & = \! \sum_{k} \left(
+        \begin{array}{l}
+            \mathrm{P}(\tau \! \ne \! t + 1 | \tau \! > \! t , m_{t+1} \! = \! M_i , m_t \! = \! M_k) \\
+            \times \mathrm{P}(m_{t+1} \! = \! M_i | m_t \! = \! M_k) \mathrm{P}(\tau \! > \! t , m_t \! = \! M_k)
+        \end{array}
+    \right) \nonumber\\
+    & = \! \sum_{k \ne i} (1 - \theta_i) a_{k i} q_{t k} + a_{i i} q_{t i} \label{eq:qti_rec}
+\end{align}
+この式(\ref{eq:qti_rec})は$ \bm{q}_t = (q_{t\ 1}\ q_{t\ 2}\ \cdots\ q_{t\ n})^\mathrm{T} $とおけば次式のようにも書ける。
+\begin{equation}
+    \arraycolsep3pt
+    \bm{q}_{t + 1} \! = \!
+    \begin{pmatrix}
+        a_{1 1} & (1 \! - \! \theta_1) a_{2 1} & \cdots & (1 \! - \! \theta_1) a_{n 1} \\
+        (1 \! - \! \theta_2) a_{1 2} & a_{2 2} & \cdots & (1 \! - \! \theta_2) a_{n 2} \\
+        \vdots & \vdots & \ddots & \vdots \\
+        (1 \! - \! \theta_n) a_{1 n} & (1 \! - \! \theta_n) a_{2 n} & \cdots & a_{n n} \\
+    \end{pmatrix}
+    \! \bm{q}_t
+    \label{eq:qt_rec}
+\end{equation}
+式(\ref{eq:qt_rec})の係数行列を$ \bm{K} $とおく。
+一方初項$ q_{1 i} $についても$ \mathrm{P}(\tau > 0) = 1 $であることに注意すれば$q_{t\ i}$の漸化式と同様にして次式を得る。
+\begin{align}
+    q_{1 i} & = \! \sum_{k} \left(
+        \begin{array}{l}
+            \mathrm{P}(r_1 = \mathrm{NLI}\ |\ m_1 = M_i , m_0 = M_k) \\
+            \times \mathrm{P}(m_1 = M_i\ |\ m_0 = M_k) \mathrm{P}(m_0 = M_k)
+        \end{array}
+    \right) \\
+    & = \! \sum_{k \ne i} (1 - \theta_i) a_{k i} s_k + a_{i i} s_i
+    \label{eq:q1i}
+\end{align}
+この式(\ref{eq:q1i})は$ \bm{s} = (s_1\ s_2\ \cdots\ s_n)^\mathrm{T} $と$ \bm{K} $を使えば次式のようになる。
+\begin{equation} \label{eq:qt_init}
+    \bm{q}_1 = \bm{K} \bm{s}
+\end{equation}
+よって式(\ref{eq:qt_rec})、(\ref{eq:qt_init})から$ q_t $の一般項は次式となる。
+\begin{equation} \label{eq:qt}
+    \bm{q}_t = \bm{K}^t \bm{s}
+\end{equation}
+
+次に$ p_{t i} $の一般項について、$ q_{t i} $の漸化式を求めたのと同様にして次式を得る。
+\begin{align}
+    p_{t+1\ i} & = \! \sum_{k} \mathrm{P}(\tau = t + 1 , \sigma_{t+1} = S_i , \sigma_t = S_k) \nonumber\\
+    & = \! \sum_{k} \left(
+        \begin{array}{l}
+            \mathrm{P}(r_t = \mathrm{LI}\ |\ m_{t+1} \! = \! M_i , m_t \! = \! M_k) \\
+            \times \mathrm{P}(m_{t+1} \! = \! M_i\ |\ m_t \! = \! M_k) \mathrm{P}(\tau \! > \! t , m_t \! = \! M_k)
+        \end{array}
+    \right) \nonumber\\
+    & = \! \sum_{k \ne i} \theta_i a_{k i} q_{t k}
+    \label{eq:pti_rec}
+\end{align}
+この式(\ref{eq:pti_rec})は$ \bm{p}_t $を使えば次のようになる。
+\begin{equation}
+    \arraycolsep3pt
+    \bm{p}_{t + 1} = 
+    \begin{pmatrix}
+        0 & \theta_1 a_{2 1} & \cdots & \theta_1 a_{n 1} \\
+        \theta_2 a_{1 2} & 0 & \cdots & \theta_2 a_{n 2} \\
+        \vdots & \vdots & \ddots & \vdots \\
+        \theta_n a_{1 n} & \theta_n a_{2 n} & \cdots & 0 \\
+    \end{pmatrix}
+    \bm{q}_t
+\end{equation}
+この係数行列を$ \bm{L} $とおき式(\ref{eq:qt})を代入すれば次式を得る。
+\begin{equation} \label{eq:pt}
+    \bm{p}_t = \bm{L} \bm{K}^{t - 1} \bm{s}
+\end{equation}
+
+\begin{figure}[bt]
+    \centering
+    \includegraphics[keepaspectratio, width=0.7\linewidth]{figures/pq.eps}
+    \caption{Recurrence formula of $ p_{t i} $ and $ q_{t i} $ as a diagram}
+\end{figure}
+
+$ \bm{p}_t $の一般項が求まった。次に$ \bm{p} $について、式(\ref{eq:pt})を式(\ref{eq:p=sum_pt})に代入すると次のようになる。
+\begin{align}
+    \bm{p} &= \sum_{t=1}^{\infty} \bm{L} \bm{K}^{t - 1} \bm{s} \nonumber \\
+    &= \bm{L} \left( \sum_{t=0}^{\infty} \bm{K}^t \right) \bm{s} \label{eq:p_}
+\end{align}
+を得る．
+
+ここで$ \sum \bm{K}^t $が収束することを示す。
+ゲルシュゴリンの定理\cite{bib:s_saito}より$ \bm{K}^\mathrm{T} $の任意の固有値$ \lambda $はいずれかの$ i $に対し次式を満たす。
+\begin{equation*}
+    a_{i i} - \sum_{j \ne i}(1 - \theta_j) a_{i j} \le \lambda \le a_{i i} + \sum_{j \ne i}(1 - \theta_j) a_{i j}
+\end{equation*}
+右の不等式についてマルコフ連鎖がエルゴード的であることから$ a_{i i} < 1 $\cite{bib:funaki}であり，$ \theta_j > 0 $でもあるので
+\begin{equation*}
+    \lambda < a_{i j} + \sum_{j \ne i} a_{i j} = 1
+\end{equation*}
+となる．同様に左の不等式についても次のようになる。
+\begin{equation*}
+    \lambda > -1
+\end{equation*}
+よって$ \bm{K}^\mathrm{T} $の固有値はいずれも絶対値が$ 1 $未満である。$ \bm{K} $と$ \bm{K}^\mathrm{T} $の固有値は等しいので$ \bm{K} $の固有値も絶対値が$ 1 $未満となる。
+そのため行列等比級数の公式\cite{bib:m_saito}により次のように変形できる。
+\begin{equation} \label{eq:sumK}
+    \sum_{t=0}^{\infty} \bm{K}^t = (\bm{I} - \bm{K})^{-1}
+\end{equation}
+ただし$ \bm{I} $は$n$行$n$列の単位行列である。
+
+式(\ref{eq:sumK})を式(\ref{eq:p_})に代入すれば(\ref{eq:p})を得る．\QED
+
+\begin{thebibliography}{99}
+    \bibitem{bib:s_saito}
+    齊藤：数値解析学入門．pp.108--109，東京大学出版会，2012．
+    \bibitem{bib:m_saito}
+    齋藤：基礎数学1　線形代数入門．pp.212，東京大学出版会，1966．
+    \bibitem{bib:funaki}
+    舟木：講座＜数学の考え方＞20　確率論．pp.207--213，朝倉書店，2003．
+\end{thebibliography}
+    
 \end{document}
