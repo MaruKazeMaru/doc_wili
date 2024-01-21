@@ -215,19 +215,19 @@ $ q_{t\ i} $は次の漸化式を満たす。
      \right) \nonumber\\
     & = \! \sum_{k} \left(
         \begin{array}{l}
-            \mathrm{P}(\tau \! \ne \! t + 1 | \tau \! > \! t , m_{t+1} \! = \! M_i , m_t \! = \! M_k) \\
+            \mathrm{P}(r_t \! = \! \mathrm{NLI} | \forall t' \! \le \! t \ \mathrm{s.t.}\ r_{t'}\! =\!\mathrm{NLI} , m_{t+1} \! = \! M_i , m_t \! = \! M_k) \\
             \times \mathrm{P}(m_{t+1} \! = \! M_i , m_t \! = \! M_k) \mathrm{P}(\tau \! > \! t)
         \end{array}
     \right) \nonumber\\
     & = \! \sum_{k} \left(
         \begin{array}{l}
-            \mathrm{P}(\tau \! \ne \! t + 1 | \tau \! > \! t , m_{t+1} \! = \! M_i , m_t \! = \! M_k) \\
+            \mathrm{P}(r_t \! = \! \mathrm{NLI} | m_{t+1} \! = \! M_i , m_t \! = \! M_k) \\
             \times \mathrm{P}(m_{t+1} \! = \! M_i | m_t \! = \! M_k) \mathrm{P}(m_t \! = \! M_k) \mathrm{P}(\tau \! > \! t)
         \end{array}
     \right) \nonumber\\
     & = \! \sum_{k} \left(
         \begin{array}{l}
-            \mathrm{P}(\tau \! \ne \! t + 1 | \tau \! > \! t , m_{t+1} \! = \! M_i , m_t \! = \! M_k) \\
+            \mathrm{P}(r_t \! = \! \mathrm{NLI} | m_{t+1} \! = \! M_i , m_t \! = \! M_k) \\
             \times \mathrm{P}(m_{t+1} \! = \! M_i | m_t \! = \! M_k) \mathrm{P}(\tau \! > \! t , m_t \! = \! M_k)
         \end{array}
     \right) \nonumber\\
@@ -307,37 +307,41 @@ $ \bm{p}_t $の一般項が求まった。次に$ \bm{p} $について、式(\re
     \bm{p} &= \sum_{t=1}^{\infty} \bm{L} \bm{K}^{t - 1} \bm{s} \nonumber \\
     &= \bm{L} \left( \sum_{t=0}^{\infty} \bm{K}^t \right) \bm{s} \label{eq:p_}
 \end{align}
-を得る．
 
-ここで$ \sum \bm{K}^t $が収束することを示す。
-ゲルシュゴリンの定理\cite{bib:s_saito}より$ \bm{K}^\mathrm{T} $の任意の固有値$ \lambda $はいずれかの$ i $に対し次式を満たす。
-\begin{equation*}
+ここで$ \sum \bm{K}^t $が収束性について、ゲルシュゴリンの定理\cite{bib:s_saito}より$ \bm{K}^\mathrm{T} $の任意の固有値$ \lambda $はいずれかの$ i $に対し次式を満たす。
+\begin{equation}
+    \label{eq:lambda}
     a_{i i} - \sum_{j \ne i}(1 - \theta_j) a_{i j} \le \lambda \le a_{i i} + \sum_{j \ne i}(1 - \theta_j) a_{i j}
-\end{equation*}
-右の不等式についてマルコフ連鎖がエルゴード的であることから$ a_{i i} < 1 $\cite{bib:funaki}であり，$ \theta_j > 0 $でもあるので
-\begin{equation*}
-    \lambda < a_{i j} + \sum_{j \ne i} a_{i j} = 1
-\end{equation*}
-となる．同様に左の不等式についても次のようになる。
-\begin{equation*}
-    \lambda > -1
-\end{equation*}
-よって$ \bm{K}^\mathrm{T} $の固有値はいずれも絶対値が$ 1 $未満である。$ \bm{K} $と$ \bm{K}^\mathrm{T} $の固有値は等しいので$ \bm{K} $の固有値も絶対値が$ 1 $未満となる。
-そのため行列等比級数の公式\cite{bib:m_saito}により次のように変形できる。
+\end{equation}
+式(\ref{eq:lambda})の右辺は次のように評価できる。
+\begin{align*}
+    \lambda &\le a_{i i} + \sum_{j \ne i}(1 - \theta_j) a_{i j} \\
+    &\le a_{i j} + \sum_{j \ne i} a_{i j} \\
+    &= 1
+\end{align*}
+等号が成り立つのは任意の$j$に対し$a_{i j} > 0 \Rightarrow \theta_j = 0$が成り立つときに限る。
+また式(\ref{eq:lambda})の左辺についても次のように評価できる。
+\begin{align*}
+    \lambda &\ge a_{i i} - \sum_{j \ne i}(1 - \theta_j) a_{i j} \\
+    &\ge a_{i i} \\
+    &\ge 1
+\end{align*}
+等号が成り立つのは$a_{i i}=1$のときに限る。
+よって任意の$i$に対し$a_{i i} < 1$かつ、任意の$i$に対し適当な$j$が存在して$a_{i j} > 0$かつ$\theta_j > 0$となるとき
+$ \bm{K}^\mathrm{T} $の固有値はいずれも絶対値が$ 1 $未満であり、また$ \bm{K} $と$ \bm{K}^\mathrm{T} $の固有値は等しいので$ \bm{K} $の固有値も絶対値が$ 1 $未満となる。
+このとき$ \sum \bm{K}^t $は収束し収束先は行列等比級数の公式\cite{bib:m_saito}により次のように求まる。
 \begin{equation} \label{eq:sumK}
     \sum_{t=0}^{\infty} \bm{K}^t = (\bm{I} - \bm{K})^{-1}
 \end{equation}
 ただし$ \bm{I} $は$n$行$n$列の単位行列である。
 
-式(\ref{eq:sumK})を式(\ref{eq:p_})に代入すれば(\ref{eq:p})を得る．\QED
+最後に式(\ref{eq:sumK})を式(\ref{eq:p_})に代入すれば式(\ref{eq:p})を得る。\QED
 
 \begin{thebibliography}{99}
     \bibitem{bib:s_saito}
     齊藤：数値解析学入門．pp.108--109，東京大学出版会，2012．
     \bibitem{bib:m_saito}
     齋藤：基礎数学1　線形代数入門．pp.212，東京大学出版会，1966．
-    \bibitem{bib:funaki}
-    舟木：講座＜数学の考え方＞20　確率論．pp.207--213，朝倉書店，2003．
 \end{thebibliography}
-    
+
 \end{document}
