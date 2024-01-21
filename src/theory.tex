@@ -1,6 +1,6 @@
 \documentclass{jarticle}
 
-\title{理論}
+\title{WiLIで用いるなくしもの位置推定の理論について}
 \author{品川風丸}
 
 \usepackage{amsmath,amssymb}
@@ -14,6 +14,7 @@
 
 \numberwithin{equation}{section}
 \numberwithin{table}{section}
+\numberwithin{figure}{section}
 
 \theoremstyle{plain}
 \newtheorem{joken}{条件}
@@ -59,32 +60,56 @@ WiLIではこの経験則をもとに利用者の行動を確率論を用いて�
 
         \begin{tabular}{c|l}
             記号 & 概要 \\
-            \hline
+            \hline \hline
 
             % 基本的な記号
             $X$ & \begin{tabular}{l}
                 捜索範囲 \\
                 $ \mathbb{R}^2 $または$ \mathbb{R}^3 $の部分集合
             \end{tabular} \\
-            $n$ & 動作の数（利用者が従うマルコフ連鎖のノードの数）\\
-            $M_i(i=1,2,\cdots,n)$ & $i$番目の動作 \\
+
+            \hline
+            $n$ & \begin{tabular}{l}
+                動作の数 \\
+                \ （利用者が従うマルコフ連鎖のノードの数）
+            \end{tabular} \\
+
+            \hline
+            $M_i(i=1,2,\cdots,n)$ & \begin{tabular}{l}
+                $i$番目の動作
+            \end{tabular} \\
+
+            \hline
             $m_t(t=0,1,2,\cdots)$ & \begin{tabular}{l}
                 $t$回目の遷移を終えた直後の動作 \\
                 ただし$m_0$は初期動作とする
             \end{tabular} \\
-            $\mathrm{LI}$ & なくしものが発生したことを表す \\
-            $\mathrm{NLI}$ & なくしものが発生しなかったことを表す \\
+
+            \hline
+            $\mathrm{LI}$ & \begin{tabular}{l}
+                なくしものが発生したことを表す
+            \end{tabular} \\
+
+            \hline
+            $\mathrm{NLI}$ & \begin{tabular}{l}
+                なくしものが発生しなかったことを表す
+            \end{tabular} \\
+
+            \hline
             $r_t(t=1,2,\cdots)$ & \begin{tabular}{l}
-                $t$回目の遷移でなくしものが発生した場合は$\mathrm{LI}$を、
+                $t$回目の遷移でなくしものが発生した場合は$\mathrm{LI}$を、\\
                 発生しなかった場合は$\mathrm{NLI}$を返す確率変数
             \end{tabular} \\
+
+            \hline
             $\tau$ & \begin{tabular}{l}
                 次を満たす数 \\
                 任意の$t < \tau$に対し$r_t=\mathrm{NLI}$かつ$r_\tau=\mathrm{LI}$ \\
-                （$\tau$回目までの遷移ではなくしものが発生せず、$\tau$回目の遷移で発生する）
+                \ （$\tau$回目までの遷移ではなくしものが発生せず、\\$\tau$回目の遷移で発生する）
             \end{tabular} \\
 
             % パラメータ
+            \hline
             $s_i$ & \begin{tabular}{l}
                 初期動作が$M_i$である確率 \\
                 $\mathrm{P}(m_0=M_i)$
@@ -96,22 +121,25 @@ WiLIではこの経験則をもとに利用者の行動を確率論を用いて�
 これらの記号の下、仮定1と仮定2加えて利用者の位置分布を次のように定式化する。
 \begin{joken}[仮定1]
     $ \mathrm{P}(m_{t+1}=M_j\ |\ m_t=M_i) $は$i$と$j$にのみ依存する。
-    この確率は$M_i$から$M_j$への遷移確率と呼び、$a_{i j}$と書く。
+    この確率は$M_i$から$M_j$への遷移確率と呼び$a_{i j}$と書く。
 \end{joken}
+
 \begin{joken}[仮定2]
     $t$に依らず次式が成り立つ。
     \begin{equation}
         \mathrm{P}(r_{t+1} = \mathrm{LI}\ |\ m_{t+1}=m_t) = 0
     \end{equation}
 \end{joken}
+
 \begin{joken}[仮定2]
     $ \mathrm{P}(r_{t+1} = \mathrm{LI}\ |\ m_{t+1}=M_i , m_{t+1} \ne m_t) $は$i$にのみ依存する。
-    この確率を$M_i$への遷移失敗確率と呼び、$\theta_i$と書く。
+    この確率を$M_i$への遷移失敗確率と呼び$\theta_i$と書く。
 \end{joken}
+
 \begin{joken}[利用者の位置分布]
     $M_i$に$X$上の確率分布が付随しているとし、その密度関数を$ b_i:X\rightarrow\mathbb{R} $と書く。
 \end{joken}
-また$M_i$でのなくしもの発生確率$p_i(i=1,2,\cdots,n)$を式(\ref{eq:p_def})で定める。
+また$M_i$でのなくしもの発生確率$p_i(i=1,2,\cdots,n)$を次式で定める。
 \begin{equation}
     \label{eq:p_def}
     p_i =\mathrm{P}(\tau < \infty , m_\tau = M_i)
@@ -123,9 +151,6 @@ $p_i$は$a_{i j}$、$s_i$、$\theta_i$を用いれば式(\ref{eq:p})のように
     \label{eq:p}
     \bm{p} =\bm{L}(\bm{I} - \bm{K})^{-1}\bm{s}
 \end{equation}
-\begin{center}
-    ただし
-\end{center}
 \begin{align*}
     \bm{p} &= (p_1\ p_2\ \cdots\ p_n)^\mathrm{T} \\
     \bm{L} &= \begin{pmatrix}
@@ -155,7 +180,7 @@ $p_i$は$a_{i j}$、$s_i$、$\theta_i$を用いれば式(\ref{eq:p})のように
     \end{pmatrix}
 \end{equation}
 
-なくしもの位置の確率分布の密度関数$h:X \rightarrow \mathbb{R}$は$p_i$と$b_i$を用いて式(\ref{eq:h})で求まる。
+なくしもの位置の確率分布を$p_i$と$b_i$を用いて次式の関数$ h \! : \! X /! \rightarrow \! \mathbb{R}$を密度関数としてもつような分布として定める。
 \begin{equation}
     \label{eq:h}
     h = \sum_{i} {p_i b_i}
@@ -181,10 +206,10 @@ $\bm{\theta} = (\theta_1\ \theta_2\ \cdots\ \theta_n)^\mathrm{T}$が従う確率
 \subsection{なくしもの位置の推定方法}
 遷移失敗確率$\theta_i$の学習は点推定ではなく分布を推定している。
 そこでなくしもの位置の推定結果としてなくしもの位置の確率分布の$\bm{\theta}$に関する平均値、
-すなわち式(\ref{eq:Eh})を密度関数としてもつ確率分布を採用する。
+すなわち次式を密度関数としてもつ確率分布を採用する。
 \begin{equation}
     \label{eq:Eh}
-    \mathrm{E}_\bm{\theta} [h]\ :\ 
+    \mathrm{E}_{\bm{\theta}} \left[ h \right]\ :\ 
     \begin{aligned}[t]
         X &\rightarrow \mathbb{R} \\
         \bm{x} &\mapsto \int {h(\bm{x} | \bm{\theta}) f(\bm{\theta}) \mathrm{d} \bm{\theta}}
@@ -196,14 +221,18 @@ $\bm{\theta} = (\theta_1\ \theta_2\ \cdots\ \theta_n)^\mathrm{T}$が従う確率
 \label{sec:calc_p}
 本章では式(\ref{eq:p})の導出をする。
 
-まず$ p_{t\ i} = \mathrm{P}(\tau = t\ , m_\tau = M_i) $とおく。これはなくしもの発生確率$p_i$に対し次式を満たす。
+まず$ p_{t i} = \mathrm{P}(\tau = t\ , m_\tau = M_i) $とおく。これはなくしもの発生確率$p_i$に対し次式を満たす。
 \begin{equation} \label{eq:pi=sum_pti}
-    p_i = \sum_{t=1}^{\infty}p_{t\ i}
+    p_i = \sum_{t=1}^{\infty}p_{t i}
 \end{equation}
-式(\ref{eq:p})を導くために$ p_{t\ i} $の$t$に関する一般項を求める。
+また$ \bm{p}_{t} = (p_{t 1}\ p_{t 2}\ \cdots\ p_{t n})^\mathrm{T} $とおけば次のようにも書ける。
+\begin{equation} \label{eq:p=sum_pt}
+    \bm{p} = \sum_{t=1}^{\infty} \bm{p}_{t i}
+\end{equation}
+そこで式(\ref{eq:p})を導くために$ p_{t i} $の$t$に関する一般項を求める。
 
-$ p_{t\ i} $の一般項を求めるにあたって、まず$ q_{t\ i} = \mathrm{P}(\tau > t\ , m_t=M_i) $の一般項を求める。
-$ q_{t\ i} $は次の漸化式を満たす。
+$ p_{t i} $の一般項を求めるにあたって$ q_{t i} = \mathrm{P}(\tau > t\ , m_t=M_i) $の一般項を求める。
+$ q_{t i} $は次の漸化式を満たす。
 \begin{align}
     q_{t+1\ i} & = \! \sum_{k} \mathrm{P}(\tau \! > \! t + 1\ , m_{t+1} \! = \! M_i\ , m_t \! = \! M_k) \nonumber\\
     & = \! \sum_{k} \mathrm{P}(\tau \! \ne \! t + 1 , m_{t+1} \! = \! M_i , m_t \! = \! M_k | \tau \! > \! t) \mathrm{P}(\tau \! > \! t) \nonumber\\
@@ -233,7 +262,7 @@ $ q_{t\ i} $は次の漸化式を満たす。
     \right) \nonumber\\
     & = \! \sum_{k \ne i} (1 - \theta_i) a_{k i} q_{t k} + a_{i i} q_{t i} \label{eq:qti_rec}
 \end{align}
-この式(\ref{eq:qti_rec})は$ \bm{q}_t = (q_{t\ 1}\ q_{t\ 2}\ \cdots\ q_{t\ n})^\mathrm{T} $とおけば次式のようにも書ける。
+この式(\ref{eq:qti_rec})は$ \bm{q}_t = (q_{t 1}\ q_{t 2}\ \cdots\ q_{t n})^\mathrm{T} $とおけば次式のようにも書ける。
 \begin{equation}
     \arraycolsep3pt
     \bm{q}_{t + 1} \! = \!
@@ -247,14 +276,14 @@ $ q_{t\ i} $は次の漸化式を満たす。
     \label{eq:qt_rec}
 \end{equation}
 式(\ref{eq:qt_rec})の係数行列を$ \bm{K} $とおく。
-一方初項$ q_{1 i} $についても$ \mathrm{P}(\tau > 0) = 1 $であることに注意すれば$q_{t\ i}$の漸化式と同様にして次式を得る。
+一方初項$ q_{1 i} $についても$ \mathrm{P}(\tau > 0) = 1 $であることに注意すれば式(\ref{eq:qti_rec})と同様にして次式を得る。
 \begin{align}
     q_{1 i} & = \! \sum_{k} \left(
         \begin{array}{l}
             \mathrm{P}(r_1 = \mathrm{NLI}\ |\ m_1 = M_i , m_0 = M_k) \\
             \times \mathrm{P}(m_1 = M_i\ |\ m_0 = M_k) \mathrm{P}(m_0 = M_k)
         \end{array}
-    \right) \\
+    \right) \nonumber\\
     & = \! \sum_{k \ne i} (1 - \theta_i) a_{k i} s_k + a_{i i} s_i
     \label{eq:q1i}
 \end{align}
@@ -262,12 +291,12 @@ $ q_{t\ i} $は次の漸化式を満たす。
 \begin{equation} \label{eq:qt_init}
     \bm{q}_1 = \bm{K} \bm{s}
 \end{equation}
-よって式(\ref{eq:qt_rec})、(\ref{eq:qt_init})から$ q_t $の一般項は次式となる。
+よって式(\ref{eq:qt_rec})、(\ref{eq:qt_init})から$ \bm{q}_t $の一般項は次式となる。
 \begin{equation} \label{eq:qt}
     \bm{q}_t = \bm{K}^t \bm{s}
 \end{equation}
 
-次に$ p_{t i} $の一般項について、$ q_{t i} $の漸化式を求めたのと同様にして次式を得る。
+次に$ p_{t i} $の一般項について、式(\ref{eq:qti_rec})と同様にして次式を得る。
 \begin{align}
     p_{t+1\ i} & = \! \sum_{k} \mathrm{P}(\tau = t + 1 , \sigma_{t+1} = S_i , \sigma_t = S_k) \nonumber\\
     & = \! \sum_{k} \left(
@@ -298,11 +327,11 @@ $ q_{t\ i} $は次の漸化式を満たす。
 
 \begin{figure}[bt]
     \centering
-    \includegraphics[keepaspectratio, width=0.7\linewidth]{figures/pq.eps}
-    \caption{Recurrence formula of $ p_{t i} $ and $ q_{t i} $ as a diagram}
+    \includegraphics[keepaspectratio, width=0.7\linewidth]{img/pq.eps}
+    \caption{$ p_{t i} $と$ q_{t i} $の漸化式のイメージ}
 \end{figure}
 
-$ \bm{p}_t $の一般項が求まった。次に$ \bm{p} $について、式(\ref{eq:pt})を式(\ref{eq:p=sum_pt})に代入すると次のようになる。
+$ \bm{p}_t $の一般項が求まったので次に$ \bm{p} $について求める。式(\ref{eq:pt})を式(\ref{eq:p=sum_pt})に代入すると次のようになる。
 \begin{align}
     \bm{p} &= \sum_{t=1}^{\infty} \bm{L} \bm{K}^{t - 1} \bm{s} \nonumber \\
     &= \bm{L} \left( \sum_{t=0}^{\infty} \bm{K}^t \right) \bm{s} \label{eq:p_}
@@ -335,7 +364,7 @@ $ \bm{K}^\mathrm{T} $の固有値はいずれも絶対値が$ 1 $未満であり
 \end{equation}
 ただし$ \bm{I} $は$n$行$n$列の単位行列である。
 
-最後に式(\ref{eq:sumK})を式(\ref{eq:p_})に代入すれば式(\ref{eq:p})を得る。\QED
+最後に式(\ref{eq:sumK})を式(\ref{eq:p_})に代入すれば式(\ref{eq:p})を得る。
 
 \begin{thebibliography}{99}
     \bibitem{bib:s_saito}

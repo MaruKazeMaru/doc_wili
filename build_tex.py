@@ -106,12 +106,12 @@ if __name__ == '__main__':
     if 'srcdir' in args:
         src_dir = args.srcdir
     else:
-        src_dir = None
+        src_dir = 'src'
 
     if 'builddir' in args:
         build_dir = args.builddir
     else:
-        build_dir = None
+        build_dir = 'build'
 
     b = TexBuilder(args.texname, src_dir=src_dir, build_dir=build_dir)
 
