@@ -1,4 +1,5 @@
 # WiLI
+<img style="width: 50%; background-color: white" src="./logo/wili_logo.svg">
 
 ## 概要
 WiLIはなくしもの位置推定用のプログラム群です。
